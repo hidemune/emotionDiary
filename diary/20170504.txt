@@ -1,0 +1,10 @@
+喜び
+
+Linuxで手持ちのXbox Oneのハンドルコントローラを使えるようにした。写真は長距離トラックのシミュレータ。GitHubにLinux用ドライバをアップロードしたよ。
+https://github.com/hidemune/xpad
+
+えらい映像作品のクオリティが高いですが商用ソフトすか？
+Steamの有料のソフトです。面白いですよ。
+https://eurotrucksimulator2.com/
+ こいつの系譜ですね〜。
+https://www.youtube.com/watch?v=3yiUnlAx9zE
