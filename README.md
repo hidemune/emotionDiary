@@ -1,5 +1,5 @@
 # emotionView
-Emotion Graph
+Emotion Diary
 
 
 ![alt tag](screenshot.png)
