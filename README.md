@@ -1,4 +1,4 @@
-# emotionView
+# emotionDiary
 Emotion Diary
 
 
