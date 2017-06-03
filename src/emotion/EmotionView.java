@@ -7,58 +7,51 @@ package emotion;
  */
 import static emotion.Emotion.anchor;
 import static emotion.Emotion.keys;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.JFrame;
 
 import org.jzy3d.analysis.AbstractAnalysis;
 import org.jzy3d.analysis.AnalysisLauncher;
 import org.jzy3d.chart.factories.AWTChartComponentFactory;
-//import org.jzy3d.chart.factories.AxeTransformableAWTChartComponentFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.ColorMapRainbow;
-import org.jzy3d.maths.Coord2d;
 import org.jzy3d.maths.Coord3d;
 import org.jzy3d.maths.Rectangle;
-import org.jzy3d.plot2d.rendering.JavaGraphics;
 import org.jzy3d.plot3d.primitives.ConcurrentScatterMultiColorList;
-import org.jzy3d.plot3d.primitives.Scatter;
-//import org.jzy3d.plot3d.primitives.axeTransformablePrimitive.AxeTransformableConcurrentScatterMultiColor;
-//import org.jzy3d.plot3d.primitives.axeTransformablePrimitive.AxeTransformableConcurrentScatterMultiColorList;
-//import org.jzy3d.plot3d.primitives.axeTransformablePrimitive.AxeTransformableScatter;
-//import org.jzy3d.plot3d.primitives.axeTransformablePrimitive.axeTransformers.AxeTransformerSet;
-//import org.jzy3d.plot3d.primitives.axeTransformablePrimitive.axeTransformers.LogAxeTransformer;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
-import static org.jzy3d.plot3d.rendering.view.OverlayUtils.drawText;
-import org.jzy3d.plot3d.rendering.view.modes.ViewPositionMode;
-import org.jzy3d.plot3d.text.DrawableTextWrapper;
-import org.jzy3d.plot3d.text.ITextRenderer;
-import org.jzy3d.plot3d.text.align.Halign;
-import org.jzy3d.plot3d.text.align.Valign;
 import org.jzy3d.plot3d.text.drawable.DrawableTextBitmap;
-import org.jzy3d.plot3d.text.drawable.DrawableTextTexture;
-import org.jzy3d.plot3d.text.drawable.cells.DrawableTextCell;
-import org.jzy3d.plot3d.text.drawable.cells.TextCellRenderer;
-import org.jzy3d.plot3d.text.overlay.SwingTextOverlay;
-import org.jzy3d.plot3d.text.overlay.TextOverlay;
 import org.jzy3d.plot3d.transform.space.SpaceTransformer;
 
-public class LogScatterView extends AbstractAnalysis {
+public class EmotionView extends AbstractAnalysis {
     public static Coord3d lgh;
-    static JFrame mainFrm;
-    public LogScatterView(JFrame mainFrm) {
+    public static emotionJFrame mainFrm;
+    public EmotionView(final emotionJFrame mainFrm) {
         this.mainFrm = mainFrm;
+        
     }
     public static void main(String[] args) throws Exception {
-        AnalysisLauncher.open(new LogScatterView(mainFrm),
-                new Rectangle(mainFrm.getX(), mainFrm.getY(),
-                        mainFrm.getWidth(), mainFrm.getHeight()));
+        EmotionView frm = new EmotionView(mainFrm);
+        frm.init();
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+        AnalysisLauncher.open(frm,
+                new Rectangle(width - mainFrm.getWidth()/2, height - mainFrm.getY()/2,
+                        mainFrm.getWidth()/2, mainFrm.getHeight()/2));
+        // */
+        
+        /*
+        frm.chart.startAnimator();
+        frm.chart.addMouseCameraController();
+        frm.chart.addMousePickingController(10);
+        frm.chart.addKeyboardCameraController();
+        frm.chart.addKeyboardScreenshotController();
+        frm.chart.show(new Rectangle(mainFrm.getWidth() - mainFrm.getWidth()/2, mainFrm.getY()/2,
+                        mainFrm.getWidth()/2, mainFrm.getHeight()/2), "感情のグラフ");
+        */
     }
 
     ArrayList<SpaceTransformer> transformers = new ArrayList();
@@ -127,7 +120,7 @@ public class LogScatterView extends AbstractAnalysis {
 
         chart.getView().setViewPoint(new Coord3d(-0.2f, -0.5f, 0.1f), true);
         //chart.addLight(new Coord3d(1,1,1));
-
+        
         for (int i = 0; i < anchor.size(); i++) {
 
             DrawableTextBitmap bit = new DrawableTextBitmap(anchor.get(i).wordEng, new Coord3d(anchor.get(i).x, anchor.get(i).y, anchor.get(i).z), Color.BLUE);
@@ -143,7 +136,14 @@ public class LogScatterView extends AbstractAnalysis {
             //ITextRenderer.
             //drawText(anchor.get(i).word, new Coord3d(anchor.get(i).x,anchor.get(i).y,anchor.get(i).z), Color.BLUE, cellRenderer);
         }
-        
+        //chart.
+        //chart.startAnimator();
     }
-
+    //public Chart getChart() {
+    //    return this.chart;
+    //}
+    
+    public void dispose() {
+        mainFrm.setViewButton(true);
+    };
 }

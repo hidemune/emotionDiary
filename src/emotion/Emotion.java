@@ -8,21 +8,12 @@ package emotion;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
-import javax.swing.text.Document;
 
 /**
  *
@@ -31,7 +22,7 @@ import javax.swing.text.Document;
 public class Emotion {
 
     public static ArrayList<EmotionAnchor> anchor = new ArrayList<>();
-    public static ArrayList<Keyword> keys = new ArrayList<>();
+    public static ArrayList<Keyword> keys;
     static emotionJFrame frm;
     public static Double xxx, yyy, zzz;
     public static final String OS_NAME = System.getProperty("os.name").toLowerCase();
@@ -63,9 +54,14 @@ public class Emotion {
         frm = new emotionJFrame();
         frm.setVisible(true);
 
+        readDict();
+        frm.setOk();
+    }
+    public static void readDict() {
         //key 全件メモリにセット
+        keys = new ArrayList<>();
         try {
-            File file = new File("emotion.csv");
+            File file = new File(frm.getDir() + File.separator + "emotion.csv");
             FileReader filereader = new FileReader(file);
             BufferedReader br = new BufferedReader(filereader);
             String str = br.readLine();
@@ -93,109 +89,11 @@ public class Emotion {
                 key.x = anchor.get(i).x;
                 key.z = anchor.get(i).z;
                 key.y = anchor.get(i).y;
-                key.bunbo = 1000000;
+                key.bunbo = 100;
                 keys.add(key);
             }
         }
         System.out.println("CSV Read OK " + keys.size());
-        /*
-        //Postgres
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-        try {
-            //-----------------
-            // 接続
-            //-----------------
-            /*
-            sudo su postgres
-            psql
-            postgres=# \password
-            Enter new password: 
-            Enter it again: 
-create table emotionwords (
-  keyword    varchar     primary key,
-  x          float8,
-  y          float8,
-  z          float8,
-  bunbo      float8
-);
-            
-            
-            postgres=# \q
-            // * /
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", // "jdbc:postgresql://[場所(Domain)]:[ポート番号]/[DB名]"
-                    "postgres", // ログインロール
-                    "xxxxxxxx"); // パスワード
-            statement = connection.createStatement();
-
-            //-----------------
-            // SQLの発行
-            //-----------------
-            //ユーザー情報のテーブル
-            resultSet = statement.executeQuery("SELECT * FROM emotionwords");
-
-            //-----------------
-            // 値の取得
-            //-----------------
-            // フィールド一覧を取得
-            List<String> fields = new ArrayList<String>();
-            ResultSetMetaData rsmd = resultSet.getMetaData();
-            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                fields.add(rsmd.getColumnName(i));
-            }
-
-            //結果の出力
-            int rowCount = 0;
-            while (resultSet.next()) {
-                rowCount++;
-
-                //System.out.println("---------------------------------------------------");
-                //System.out.println("--- Rows:" + rowCount);
-                //System.out.println("---------------------------------------------------");
-
-                //値は、「resultSet.getString(<フィールド名>)」で取得する。
-                //for (String field : fields) {
-                //    System.out.println(field + ":" + resultSet.getString(field));
-                //}
-                Keyword key = new Keyword();
-                key.word = resultSet.getString("keyword");
-                key.x = resultSet.getDouble("x");
-                key.y = resultSet.getDouble("y");
-                key.z = resultSet.getDouble("z");
-                key.bunbo = resultSet.getDouble("bunbo");
-                //System.out.println(key.word + ","+ key.x + ","+ key.y + ","+ key.z );
-                keys.add(key);
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            //接続を切断する
-            if (resultSet != null) {
-                try{
-                    resultSet.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-            if (statement != null) {
-                try{
-                    statement.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                } 
-            }
-            if (connection != null) {
-                try{
-                    connection.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        } 
-         */
-
-        frm.setOk();
     }
     public static void bunseki() {
         try {
@@ -338,11 +236,11 @@ create table emotionwords (
                 key.bunbo = 1000000;
                 keys.add(key);
             }
-            LogScatterView lv = new LogScatterView(frm);
+            EmotionView lv = new EmotionView(frm);
             lv.init();
             try {
                 Emotion.saveEmotion(false);
-                LogScatterView.main(null);
+                EmotionView.main(null);
             }catch  (Exception e) {
                 e.printStackTrace();
             }
@@ -724,7 +622,7 @@ create table emotionwords (
         //tab CSV Out
         System.out.println("CSV Write");
         try {
-            File file = new File("emotion.csv");
+            File file = new File(frm.getDir() + File.separator + "emotion.csv");
             FileWriter filewriter = new FileWriter(file);
             String str;
             for (int i = 0; i < keys.size(); i++) {

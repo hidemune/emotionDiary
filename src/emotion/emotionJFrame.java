@@ -7,10 +7,7 @@ package emotion;
 
 import com.sun.glass.events.KeyEvent;
 import static emotion.Emotion.anchor;
-import static emotion.Emotion.frm;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -20,20 +17,11 @@ import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import javafx.scene.input.MouseButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.text.Document;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.HTMLFrameHyperlinkEvent;
-import javax.swing.text.html.StyleSheet;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -43,7 +31,7 @@ public class emotionJFrame extends javax.swing.JFrame {
     private boolean clipmode;
     private String nowUrl = "";
     ButtonGroup group;
-    JFrame mainFrm = this;
+    emotionJFrame mainFrm = this;
     /**
      * Creates new form emotionJFrame
      */
@@ -79,47 +67,16 @@ public class emotionJFrame extends javax.swing.JFrame {
         ymd.setText(date1 + ".txt");
         
         UndoHelper helper = new UndoHelper(diary);
-        
-    }
-    //public Document getHtml() {
-    //    diary.setText(diary.getText().replaceAll("<.+?>", ""));
-    //    return diary.getDocument();
-    //}
-    //void setStyle() {
-        //
-        //    StyleSheet styleSheet = new StyleSheet();
-        //    styleSheet.addRule("body {background-color: #FFFFFF; Font: VL Gothic; Font-size: 14pt}");
-        //    HTMLEditorKit htmlEditorKit = new HTMLEditorKit();
-        //    htmlEditorKit.setStyleSheet(styleSheet);
-        //    diary.setEditorKit(htmlEditorKit);
-        /*
-        //System.out.println(html.getText());
-        HTMLDocument doc = (HTMLDocument) html.getDocument();
-        StyleSheet ss = doc.getStyleSheet();
-        StyleSheet[] sss = ss.getStyleSheets();
-        for (int i = sss.length - 1; i >= 0; i--) {
-            Style body = sss[i].getStyle("body");	//StyleはAttributeSetの具象クラス
-            if (body != null) {
-                    StyleConstants.setFontFamily(body, "VL Gothic");
-                    StyleConstants.setFontSize(body, 14);
-                    StyleConstants.setBackground(body, Color.white);
-
-                    //break;
-            }
-            Style div = sss[i].getStyle("div");	//StyleはAttributeSetの具象クラス
-            if (div != null) {
-                    StyleConstants.setFontFamily(div, "VL Gothic");
-                    StyleConstants.setFontSize(div, 14);
-                    StyleConstants.setBackground(div, Color.white);
-
-                    //break;
-            }
-            html.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);	//setFont()が有効になる
-            html.setFont(new Font("VL Gothic", 0, 14));
-            
+        TableColumnModel tcm = calT.getColumnModel();
+        CellRenderer cr = new CellRenderer();
+        for (int i=0; i < 7; i++) {
+            TableColumn tc = tcm.getColumn(i);
+            tc.setCellRenderer(cr);
         }
-        // */
-    //}
+    }
+    public void setViewButton(boolean val) {
+        jButton4.setEnabled(val);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -135,11 +92,6 @@ public class emotionJFrame extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jSlider1 = new javax.swing.JSlider();
-        jSlider2 = new javax.swing.JSlider();
-        jSlider3 = new javax.swing.JSlider();
-        jTextField1 = new javax.swing.JTextField();
-        jRadioButton2 = new javax.swing.JRadioButton();
         jButton7 = new javax.swing.JButton();
         jRadioButton3 = new javax.swing.JRadioButton();
         status = new java.awt.Label();
@@ -153,6 +105,15 @@ public class emotionJFrame extends javax.swing.JFrame {
         month = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         ymd = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jSlider1 = new javax.swing.JSlider();
+        jSlider2 = new javax.swing.JSlider();
+        jSlider3 = new javax.swing.JSlider();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jTextField1 = new javax.swing.JTextField();
+        cmbDir = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("感情日記");
@@ -170,7 +131,7 @@ public class emotionJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Save");
+        jButton1.setText("日記の保存");
         jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,62 +170,6 @@ public class emotionJFrame extends javax.swing.JFrame {
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
-            }
-        });
-
-        jSlider1.setMaximum(2000);
-        jSlider1.setValue(1000);
-        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSlider1StateChanged(evt);
-            }
-        });
-
-        jSlider2.setMaximum(2000);
-        jSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
-        jSlider2.setValue(1000);
-        jSlider2.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSlider2StateChanged(evt);
-            }
-        });
-
-        jSlider3.setMaximum(2000);
-        jSlider3.setValue(1000);
-        jSlider3.setInverted(true);
-        jSlider3.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSlider3StateChanged(evt);
-            }
-        });
-
-        jTextField1.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                jTextField1CaretPositionChanged(evt);
-            }
-        });
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        jTextField1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jTextField1PropertyChange(evt);
-            }
-        });
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField1KeyReleased(evt);
-            }
-        });
-
-        jRadioButton2.setText("探索モード");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
             }
         });
 
@@ -322,6 +227,9 @@ public class emotionJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        calT.setCellSelectionEnabled(true);
+        calT.setGridColor(new java.awt.Color(204, 204, 204));
+        calT.setShowGrid(true);
         calT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 calTMouseClicked(evt);
@@ -354,115 +262,221 @@ public class emotionJFrame extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel2.setText("月");
 
+        jButton2.setText("<<");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText(">>");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jSlider1.setMaximum(2000);
+        jSlider1.setValue(1000);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
+
+        jSlider2.setMaximum(2000);
+        jSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSlider2.setValue(1000);
+        jSlider2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider2StateChanged(evt);
+            }
+        });
+
+        jSlider3.setMaximum(2000);
+        jSlider3.setValue(1000);
+        jSlider3.setInverted(true);
+        jSlider3.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider3StateChanged(evt);
+            }
+        });
+
+        jRadioButton2.setText("探索モード");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jTextField1CaretPositionChanged(evt);
+            }
+        });
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTextField1PropertyChange(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 318, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(116, 116, 116)
+                            .addComponent(jSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jRadioButton2)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap()))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(81, 81, 81)
+                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jRadioButton2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(19, 19, 19)))
+                    .addContainerGap()))
+        );
+
+        cmbDir.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "example", "diary", "diary2", "diary3" }));
+        cmbDir.setSelectedItem("diary");
+        cmbDir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jRadioButton2)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton5))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(2, 2, 2)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(208, 208, 208)
-                                .addComponent(year, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(month, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(emotion, 0, 123, Short.MAX_VALUE)
-                                            .addComponent(ymd))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton1))
-                                    .addComponent(jRadioButton3)))))
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1))
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(cmbDir, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton6))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(105, 105, 105)
+                                    .addComponent(jButton2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(year, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(3, 3, 3)
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(month, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton9))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(emotion, 0, 123, Short.MAX_VALUE)
+                                                .addComponent(ymd))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jButton1))
+                                        .addComponent(jRadioButton3)))
+                                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6)
+                    .addComponent(cmbDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton3)
-                        .addComponent(jButton4)
-                        .addComponent(jButton5)
-                        .addComponent(jButton6))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jButton7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(99, 99, 99)
-                                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jRadioButton2)
+                                .addComponent(jRadioButton3)
+                                .addGap(18, 18, 18)
+                                .addComponent(ymd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(emotion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton1)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(71, 71, 71)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jButton2)
+                                    .addComponent(jButton9))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(19, 19, 19))))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jButton7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jRadioButton3)
-                            .addGap(18, 18, 18)
-                            .addComponent(ymd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(emotion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton1)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(71, 71, 71)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1)
-                                .addComponent(month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(226, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1))))
         );
 
         pack();
@@ -506,16 +520,18 @@ public class emotionJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        jButton4.setEnabled(false);
-        LogScatterView view = new LogScatterView(mainFrm);
-        view.init();
+        //jButton4.setEnabled(false);
+        EmotionView view = new EmotionView(mainFrm);
         try {
             Emotion.saveEmotion(false);
-            LogScatterView.main(null);
+            view.init();
+            //view.getCanvas();
+            view.main(null);
+            //view.getChart().startAnimator();
         }catch  (Exception e) {
             e.printStackTrace();
         }
-        jButton4.setEnabled(true);
+        //jButton4.setEnabled(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -655,6 +671,28 @@ public class emotionJFrame extends javax.swing.JFrame {
     private void yearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearActionPerformed
         setCalT();
     }//GEN-LAST:event_yearActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Calendar cal = Calendar.getInstance();
+        cal.set(Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, 1);
+        cal.add(Calendar.MONTH, -1);
+        year.setText("" + cal.get(Calendar.YEAR));
+        month.setText("" + (cal.get(Calendar.MONTH)+1));
+        setCalT();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        Calendar cal = Calendar.getInstance();
+        cal.set(Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, 1);
+        cal.add(Calendar.MONTH, 1);
+        year.setText("" + cal.get(Calendar.YEAR));
+        month.setText("" + (cal.get(Calendar.MONTH)+1));
+        setCalT();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void cmbDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDirActionPerformed
+        Emotion.readDict();
+    }//GEN-LAST:event_cmbDirActionPerformed
     private void setMode(){
         clipmode = !(jRadioButton2.isSelected());
         if (jRadioButton3.isSelected()) {
@@ -672,7 +710,7 @@ public class emotionJFrame extends javax.swing.JFrame {
     }
     public boolean hasDiary(String fileName) {
         try {
-            File file = new File("diary" + File.separator + fileName);
+            File file = new File(cmbDir.getSelectedItem() + File.separator + fileName);
             if (file.exists()) {
                 return true;
             }
@@ -693,7 +731,7 @@ public class emotionJFrame extends javax.swing.JFrame {
     }
     public void readDiary(String fileName) {
         try {
-            File file = new File("diary" + File.separator + fileName);
+            File file = new File(cmbDir.getSelectedItem() + File.separator + fileName);
             BufferedReader brW = new BufferedReader(new FileReader(file));
             StringBuilder sb = new StringBuilder();
             
@@ -710,6 +748,7 @@ public class emotionJFrame extends javax.swing.JFrame {
     }
     public void setDiaryText(String txt) {
         diary.setText(txt);
+        diary.setCaretPosition(0);
     }
     public String getYmdName() {
         return ymd.getText();
@@ -719,6 +758,9 @@ public class emotionJFrame extends javax.swing.JFrame {
     }
     private void setCalT() {
         Calendar cal = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
+        calT.removeColumnSelectionInterval(0, 6);
+        calT.removeRowSelectionInterval(0,5);
         try {
             int yyyy = Integer.parseInt( year.getText() );
             int mm = Integer.parseInt( month.getText() ) - 1;
@@ -726,6 +768,8 @@ public class emotionJFrame extends javax.swing.JFrame {
             int week = cal.get(Calendar.DAY_OF_WEEK);
             int r = 0;
             int c = 0;
+            int todayR = -1;
+            int todayC = -1;
             cal.add(Calendar.DATE , -week+1);
             for (r = 0 ; r < 6; r++) {
                 for (c = 0 ; c < 7; c++) {
@@ -733,13 +777,28 @@ public class emotionJFrame extends javax.swing.JFrame {
                     Date time = cal.getTime();
                     String date1 = format1.format(time) + ".txt";            
                     String have = "";
+                    String havep = "";
                     if (hasDiary(date1)) {
                         have = "●";
                     }
-                    calT.setValueAt(cal.get(Calendar.DATE) + have, r, c);
+                    if (cal.get(Calendar.MONTH) + 1 != Integer.parseInt(month.getText())) {
+                        havep = "[[ ";
+                        have = " ]]";
+                    }
+                    //Today
+                    if (now.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)) {
+                        todayR = r;
+                        todayC = c;
+                    }
+                    calT.setValueAt(havep + cal.get(Calendar.DATE) + have, r, c);
 
                     cal.add(Calendar.DATE, 1);
                 }
+            }
+            if (todayR>=0) {
+                //calT.getSelectionModel().setSelectionInterval(todayR, todayC);//todayR, todayC);
+                calT.addColumnSelectionInterval(todayC, todayC);
+                calT.addRowSelectionInterval(todayR, todayR);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -752,8 +811,8 @@ public class emotionJFrame extends javax.swing.JFrame {
         xx = Float.valueOf("" +Emotion.xxx) ;
         yy = Float.valueOf("" +Emotion.yyy) ;
         zz = Float.valueOf("" +Emotion.zzz) ;
-        if (LogScatterView.lgh != null) {
-            LogScatterView.lgh.set(xx, yy, zz);
+        if (EmotionView.lgh != null) {
+            EmotionView.lgh.set(xx, yy, zz);
         }
         clipmode = true;
         double[] dist = new double[30];
@@ -851,20 +910,27 @@ public class emotionJFrame extends javax.swing.JFrame {
         jButton3.setEnabled(false);
         diary.setVisible(false);
     }
+    public String getDir() {
+        return cmbDir.getSelectedItem().toString();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable calT;
+    private javax.swing.JComboBox<String> cmbDir;
     private javax.swing.JTextPane diary;
     private javax.swing.JComboBox<String> emotion;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
