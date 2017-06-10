@@ -62,33 +62,6 @@ public class EmotionView extends AbstractAnalysis {
         }
         lgh = new Coord3d(Emotion.xxx,Emotion.yyy,Emotion.zzz);
         
-        //key 全件メモリにセット
-        /*
-                try{
-                    File file = new File("emotion.csv");
-                    FileReader filereader = new FileReader(file);
-                    BufferedReader br = new BufferedReader(filereader);
-                    String str = br.readLine();
-                    while(str != null){
-                        //System.out.println(str);
-                        String arr[] = str.split("\t");
-                        if (arr.length >= 5) {
-                            Keyword key = new Keyword();
-                            key.word = arr[0];
-                            key.x = Double.valueOf(arr[1]);
-                            key.y = Double.valueOf(arr[2]);
-                            key.z = Double.valueOf(arr[3]);
-                            key.bunbo = Double.valueOf(arr[4]);
-                            //System.out.println(key.word + ","+ key.x + ","+ key.y + ","+ key.z );
-                            keys.add(key);
-                        }
-                        str = br.readLine();
-                    }
-                }catch(Exception e){
-                  System.out.println(e);
-                }
-                System.out.println("CSV Read OK " + keys.size());
-                // */
         float x;
         float y;
         float z;

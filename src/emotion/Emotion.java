@@ -128,7 +128,7 @@ public class Emotion {
             bw.close();
             fw2.close();
             
-            ProcessBuilder pb = new ProcessBuilder("mecab", "emotion_wk.txt");
+            ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab", "-d", "./mecab", "emotion_wk.txt");
             Process process = pb.start();
             InputStream is = process.getInputStream();	//標準出力
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -271,7 +271,7 @@ public class Emotion {
                     bw.close();
                     fw.close();
 
-                    ProcessBuilder pb = new ProcessBuilder("mecab", "emotion_wk.txt");
+                    ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab","-d", "./mecab", "emotion_wk.txt");
                     Process process = pb.start();
                     InputStream is = process.getInputStream();	//標準出力
                     BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -372,13 +372,13 @@ public class Emotion {
 
     public static void saveDiary(String anchorP, emotionJFrame frm) {
         try {
-            File newdir = new File("diary");
+            File newdir = new File(frm.getDir());
             newdir.mkdir();
         } catch (Exception e){
             //None
         }
         try {
-            File file = new File("diary" + File.separator + frm.getYmdName());
+            File file = new File(frm.getDir() + File.separator + frm.getYmdName());
             FileWriter filewriter = new FileWriter(file);
             String str = anchorP + "\n\n" + frm.getDiaryText();
             filewriter.write(str);
@@ -426,7 +426,7 @@ public class Emotion {
             bw.close();
             fw2.close();
             
-            ProcessBuilder pb = new ProcessBuilder("mecab", "emotion_wk.txt");
+            ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab", "-d", "./mecab","emotion_wk.txt");
             Process process = pb.start();
             InputStream is = process.getInputStream();	//標準出力
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -530,7 +530,7 @@ public class Emotion {
             bw.close();
             fw.close();
 
-            ProcessBuilder pb = new ProcessBuilder("mecab", "emotion_wk.txt");
+            ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab","-d", "./mecab", "emotion_wk.txt");
             Process process = pb.start();
             InputStream is = process.getInputStream();	//標準出力
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
