@@ -127,8 +127,9 @@ public class Emotion {
             //bw.flush();
             bw.close();
             fw2.close();
-            
-            ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab", "-d", "./mecab", "emotion_wk.txt");
+            //Mac
+            //ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab", "-d", "./mecab", "emotion_wk.txt");
+            ProcessBuilder pb = new ProcessBuilder("mecab", "emotion_wk.txt");
             Process process = pb.start();
             InputStream is = process.getInputStream();	//標準出力
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -270,8 +271,9 @@ public class Emotion {
                     bw.write(str);
                     bw.close();
                     fw.close();
-
-                    ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab","-d", "./mecab", "emotion_wk.txt");
+                    //Mac
+                    //ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab","-d", "./mecab", "emotion_wk.txt");
+                    ProcessBuilder pb = new ProcessBuilder("mecab", "emotion_wk.txt");
                     Process process = pb.start();
                     InputStream is = process.getInputStream();	//標準出力
                     BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -425,8 +427,9 @@ public class Emotion {
             //bw.flush();
             bw.close();
             fw2.close();
-            
-            ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab", "-d", "./mecab","emotion_wk.txt");
+            //Mac
+            //ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab", "-d", "./mecab","emotion_wk.txt");
+            ProcessBuilder pb = new ProcessBuilder("mecab", "emotion_wk.txt");
             Process process = pb.start();
             InputStream is = process.getInputStream();	//標準出力
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -529,8 +532,9 @@ public class Emotion {
             bw.write(line);
             bw.close();
             fw.close();
-
-            ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab","-d", "./mecab", "emotion_wk.txt");
+            //Mac
+            //ProcessBuilder pb = new ProcessBuilder("./mecab/bin/mecab","-d", "./mecab", "emotion_wk.txt");
+            ProcessBuilder pb = new ProcessBuilder("mecab", "emotion_wk.txt");
             Process process = pb.start();
             InputStream is = process.getInputStream();	//標準出力
             BufferedReader br = new BufferedReader(new InputStreamReader(is));

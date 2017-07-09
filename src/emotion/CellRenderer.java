@@ -26,11 +26,13 @@ public class CellRenderer extends JLabel
     public Component getTableCellRendererComponent(JTable table,
             Object value, boolean isSelected, boolean hasFocus, int row,
             int column) {
-        
+
         this.setHorizontalAlignment(JLabel.CENTER);
-        
-        setText(value.toString());
-        
+
+        if (value != null) {
+            setText(value.toString());
+        }
+
         this.setOpaque(false);
         this.setBorder(super.getBorder());
         if (isSelected) {
@@ -40,11 +42,11 @@ public class CellRenderer extends JLabel
             setForeground(table.getForeground());
             setBackground(table.getBackground());
         }
-        try{
+        try {
             if (Integer.parseInt(value.toString().replace("●", "")) > 0) {
                 //Do Nothing
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             this.setForeground(new Color(0x999999));
         }
         return this;

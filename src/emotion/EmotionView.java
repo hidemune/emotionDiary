@@ -36,10 +36,10 @@ public class EmotionView extends AbstractAnalysis {
         EmotionView frm = new EmotionView(mainFrm);
         frm.init();
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
+        //int width = gd.getDisplayMode().getWidth();
+        //int height = gd.getDisplayMode().getHeight();
         AnalysisLauncher.open(frm,
-                new Rectangle(width - mainFrm.getWidth()/2, height - mainFrm.getY()/2,
+                new Rectangle(mainFrm.getWidth()/2, mainFrm.getHeight()/2,
                         mainFrm.getWidth()/2, mainFrm.getHeight()/2));
         // */
         

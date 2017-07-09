@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/hidemunetanaka/git/emotionDiary/src/emotion/emotionJFrame.java</file>
-            <file>file:/Users/hidemunetanaka/git/emotionDiary/src/emotion/Emotion.java</file>
-            <file>file:/Users/hidemunetanaka/git/emotionDiary/src/emotion/EmotionView.java</file>
+            <file>file:/home/user/git/emotionDiary/src/emotion/emotionJFrame.java</file>
+            <file>file:/home/user/git/emotionDiary/src/emotion/Emotion.java</file>
+            <file>file:/home/user/git/emotionDiary/src/emotion/UndoHelper.java</file>
         </group>
     </open-files>
 </project-private>
