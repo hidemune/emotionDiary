@@ -27,18 +27,17 @@ import org.jzy3d.plot3d.transform.space.SpaceTransformer;
 
 public class EmotionView extends AbstractAnalysis {
     public static Coord3d lgh;
-    public static emotionJFrame mainFrm;
+    public emotionJFrame mainFrm;
     public EmotionView(final emotionJFrame mainFrm) {
         this.mainFrm = mainFrm;
-        
     }
-    public static void main(String[] args) throws Exception {
-        EmotionView frm = new EmotionView(mainFrm);
-        frm.init();
+    public void main(String[] args) throws Exception {
+        //EmotionView frm = new EmotionView(this.mainFrm);
+        //frm.init();
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         //int width = gd.getDisplayMode().getWidth();
         //int height = gd.getDisplayMode().getHeight();
-        AnalysisLauncher.open(frm,
+        AnalysisLauncher.open(this,
                 new Rectangle(mainFrm.getWidth()/2, mainFrm.getHeight()/2,
                         mainFrm.getWidth()/2, mainFrm.getHeight()/2));
         // */
@@ -56,6 +55,7 @@ public class EmotionView extends AbstractAnalysis {
 
     ArrayList<SpaceTransformer> transformers = new ArrayList();
 
+    @Override
     public void init() {
         if (chart != null) {
             chart.dispose();
@@ -118,5 +118,12 @@ public class EmotionView extends AbstractAnalysis {
     
     public void dispose() {
         mainFrm.setViewButton(true);
+        //this.dispose();
+        mainFrm = null;
+        chart = null;
     };
+
+
+
+    
 }

@@ -502,7 +502,8 @@ public class emotionJFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         //jButton4.setEnabled(false);
-        EmotionView view = new EmotionView(mainFrm);
+        EmotionView view = null;
+        view = new EmotionView(mainFrm);
         try {
             Emotion.saveEmotion(false);
             view.init();
@@ -511,6 +512,8 @@ public class emotionJFrame extends javax.swing.JFrame {
             //view.getChart().startAnimator();
         }catch  (Exception e) {
             e.printStackTrace();
+        } finally {
+            view.dispose();
         }
         //jButton4.setEnabled(true);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -718,7 +721,7 @@ public class emotionJFrame extends javax.swing.JFrame {
         return ymd.getText();
     }
     public String getDiaryText() {
-        return diary.getText();
+        return diary.getText().replaceAll("\n+", "\n");
     }
     private void setCalT() {
         Calendar cal = Calendar.getInstance();
