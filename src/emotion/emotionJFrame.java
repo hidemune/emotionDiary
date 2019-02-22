@@ -502,18 +502,17 @@ public class emotionJFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         //jButton4.setEnabled(false);
-        EmotionView view = null;
-        view = new EmotionView(mainFrm);
+        EmotionView view = new EmotionView(mainFrm);
         try {
             Emotion.saveEmotion(false);
             view.init();
             //view.getCanvas();
-            view.main(null);
+            view.main();
             //view.getChart().startAnimator();
         }catch  (Exception e) {
             e.printStackTrace();
         } finally {
-            view.dispose();
+            //view.dispose();
         }
         //jButton4.setEnabled(true);
     }//GEN-LAST:event_jButton4ActionPerformed

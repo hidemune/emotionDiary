@@ -242,7 +242,7 @@ public class Emotion {
             lv.init();
             try {
                 Emotion.saveEmotion(false);
-                lv.main(null);
+                lv.main();
             }catch  (Exception e) {
                 e.printStackTrace();
             }
